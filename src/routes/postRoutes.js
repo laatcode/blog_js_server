@@ -17,4 +17,13 @@ router.post('/', (req, res) => {
         .catch(error => response.error(req, res, error, error.error && 500))
 })
 
+router.patch('/:postId', (req, res) => {
+    if(!req.is('application/json')) {
+        return response.error(req, res, {message: "El contenido debe ser en formato JSON"})
+    }
+    controller.updatePost(req.params.postId, req.body.title, req.body.content)
+        .then(data => response.success(req, res, data))
+        .catch(error => response.error(req, res, error, error.error && 500))
+})
+
 module.exports = router

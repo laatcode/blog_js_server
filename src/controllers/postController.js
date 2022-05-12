@@ -39,7 +39,39 @@ const createPost = (title, content) => new Promise((resolve, reject) => {
     }
 })
 
+const updatePost = (id, title, content) => new Promise((resolve, reject) => {
+    if(!id || !title || !content) {
+        return reject({
+            message: 'Datos incompletos'
+        })
+    }
+
+    const dateTime = new Date()
+
+    const post = {
+        id,
+        title,
+        content,
+        updated_at: dateTime
+    }
+
+    postDB.updatePost(post)
+        .then(result => {
+            if(result.changedRows === 1) {
+                return resolve(`Post ${id} actualizado con éxito`)
+            } else {
+                return reject({
+                    message: `Ha ocurrido un error al actualizar el post ${id}, por favor valide los datos e intente nuevamente`
+                })
+            }
+        }).catch(error => reject({
+            message: `Ha ocurrido un error al actualizar el post ${id}`,
+            error
+        }))
+})
+
 module.exports = {
     getPosts,
-    createPost
+    createPost,
+    updatePost
 }
