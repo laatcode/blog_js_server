@@ -70,8 +70,31 @@ const updatePost = (id, title, content) => new Promise((resolve, reject) => {
         }))
 })
 
+const deletePost = postId => new Promise((resolve, reject) => {
+    if(!postId) {
+        return reject({
+            message: 'Es necesario indicar el ID del post a eliminar'
+        })
+    }
+
+    postDB.deletePost(postId)
+        .then(result => {
+            if(result.affectedRows === 1) {
+                resolve(`Post ${postId} eliminado con éxito`)
+            } else {
+                reject({
+                    message: `Post ${postId} no existe`
+                })
+            }
+        }).catch(error => reject({
+            message: `Ha ocurrido un error al eliminar el post ${postId}`,
+            error
+        }))
+})
+
 module.exports = {
     getPosts,
     createPost,
-    updatePost
+    updatePost,
+    deletePost
 }
