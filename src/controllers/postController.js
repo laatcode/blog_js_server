@@ -9,7 +9,7 @@ const getPosts = () => new Promise((resolve, reject) => {
         }))
 })
 
-const createPost = (title, content) => new Promise((resolve, reject) => {
+const createPost = (title, content, user) => new Promise((resolve, reject) => {
     if(!title || !content) {
         return reject({
             message: 'Datos incompletos'
@@ -21,7 +21,9 @@ const createPost = (title, content) => new Promise((resolve, reject) => {
             title,
             content,
             created_at: dateTime,
-            updated_at: dateTime
+            created_by: user,
+            updated_at: dateTime,
+            updated_by: user
         }
 
         postDB.createPost(post)

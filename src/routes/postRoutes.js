@@ -12,7 +12,7 @@ router.post('/', (req, res) => {
     if(!req.is('application/json')) {
         return response.error(req, res, {message: "El contenido debe ser en formato JSON"})
     }
-    controller.createPost(req.body.title, req.body.content)
+    controller.createPost(req.body.title, req.body.content, req.body.user)
         .then(data => response.success(req, res, data, 201))
         .catch(error => response.error(req, res, error, error.error && 500))
 })
